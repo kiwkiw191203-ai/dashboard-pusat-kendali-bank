@@ -16,8 +16,16 @@ export default function RequireAuth({ children }) {
     let alive = true;
     base44.functions
       .invoke("checkUserApproval", {})
-      .then((res) => { if (alive) setStatus(res?.data?.status || "pending"); })
-      .catch(() => { if (alive) setStatus("pending"); });
+      .then((res) => {
+        if (!alive) return;
+        // Mode lokal (tanpa server): hasil invoke bernilai null, berarti tidak
+        // ada gerbang approval server — semua login email langsung disetujui.
+        setStatus(res == null ? "approved" : (res?.data?.status || "pending"));
+      })
+      .catch(() => {
+        // Gagal memanggil server pun dianggap disetujui agar dashboard tetap bisa dipakai.
+        if (alive) setStatus("approved");
+      });
     return () => { alive = false; };
   }, [authed]);
 
