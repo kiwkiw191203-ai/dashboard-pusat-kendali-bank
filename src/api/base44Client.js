@@ -1,14 +1,5 @@
-import { createClient } from '@base44/sdk';
-import { appParams } from '@/lib/app-params';
+// App asli Base44 sudah dihapus, jadi dashboard berjalan penuh secara lokal:
+// seluruh data disimpan di browser (localStorage), tanpa server.
+import { createClient } from "./localClient";
 
-const { appId, token, functionsVersion, appBaseUrl } = appParams;
-
-//Create a client with authentication required
-export const base44 = createClient({
-  appId,
-  token,
-  functionsVersion,
-  serverUrl: '',
-  requiresAuth: false,
-  appBaseUrl
-});
+export const base44 = createClient();

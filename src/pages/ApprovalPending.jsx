@@ -12,7 +12,7 @@ export default function ApprovalPending({ status = "pending" }) {
   const handleLogout = async () => {
     try { await endSession(); } catch {}
     dashLogout();
-    try { base44.auth.logout("/login"); } catch { window.location.href = "/login"; }
+    try { base44.auth.logout("/login"); } catch { window.location.href = import.meta.env.BASE_URL + "login"; }
   };
 
   return (
