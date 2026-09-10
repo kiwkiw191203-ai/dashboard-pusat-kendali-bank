@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { ShieldCheck, Sun, Moon, CheckCircle2, Loader2, Sparkles } from "lucide-react";
-import { base44 } from "@/api/base44Client";
-import { isAuthed, getSession, loginVerified, getProfileFor } from "@/lib/dashboardAuth";
+import { isAuthed, getSession, loginVerified, login, getProfileFor } from "@/lib/dashboardAuth";
 import { startSession } from "@/lib/dashboardSession";
 import { useTheme } from "@/components/dashboard/ThemeContext";
 import GoogleIcon from "@/components/GoogleIcon";
@@ -22,23 +21,24 @@ export default function Login() {
     document.documentElement.setAttribute("data-theme", localStorage.getItem("cs-theme") || "dark");
     (async () => {
       if (isAuthed()) { navigate("/", { replace: true }); return; }
-      try {
-        const authed = await base44.auth.isAuthenticated();
-        if (authed) {
-          const me = await base44.auth.me();
-          loginVerified({ email: me.email, name: me.full_name, avatar_url: me.avatar_url });
-          const s = getSession();
-          const prof = getProfileFor(s.email) || {};
-          startSession({ email: s.email, name: s.name, avatar_url: s.avatar_url, cover_url: prof.cover_url }).catch(() => {});
-          navigate("/", { replace: true });
-          return;
-        }
-      } catch { setErr("Akun Google ini belum memiliki akses ke aplikasi."); }
       setChecking(false);
     })();
   }, [navigate]);
 
-  const google = () => { setBusy(true); base44.auth.loginWithProvider("google", `${import.meta.env.BASE_URL}login`); };
+  const [email, setEmail] = useState("");
+
+  const submit = (e) => {
+    e.preventDefault();
+    const ok = login(email);
+    if (!ok) { setErr("Format email tidak valid. Contoh: nama@cspro.com"); return; }
+    setErr("");
+    setBusy(true);
+    const s = getSession();
+    const prof = getProfileFor(s.email) || {};
+    startSession({ email: s.email, name: s.name, avatar_url: s.avatar_url, cover_url: prof.cover_url }).catch(() => {});
+    setDone(true);
+    setTimeout(() => navigate("/", { replace: true }), 900);
+  };
 
   if (checking) {
     return (
@@ -149,29 +149,39 @@ export default function Login() {
                 </motion.p>
               )}
 
-              {/* Google Button */}
-              <motion.button
-                onClick={google}
-                disabled={busy}
-                whileHover={{ scale: 1.02, boxShadow: "0 8px 30px rgba(37,99,235,0.3)" }}
-                whileTap={{ scale: 0.98 }}
+              {/* Email Login Form */}
+              <motion.form
+                onSubmit={submit}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
-                className="relative flex w-full items-center justify-center gap-3 overflow-hidden rounded-2xl py-4 text-[0.92rem] font-bold transition-all disabled:opacity-60"
-                style={{ background: "linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%)", color: "#FFFFFF", boxShadow: "0 8px 30px rgba(37,99,235,0.45), inset 0 1px 0 rgba(255,255,255,0.15)" }}>
-                {/* Shine sweep */}
-                <motion.div animate={{ x: ["-120%", "220%"] }} transition={{ duration: 2.2, repeat: Infinity, repeatDelay: 1.4, ease: "easeInOut" }}
-                  className="absolute inset-y-0 w-1/3 skew-x-12 opacity-25" style={{ background: "linear-gradient(90deg, transparent, #fff, transparent)" }} />
-                {busy ? <Loader2 size={20} className="animate-spin" /> : (
-                  <>
-                    <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-white/20">
-                      <GoogleIcon className="h-4 w-4" />
-                    </div>
-                    <span className="relative">Masuk dengan Google</span>
-                  </>
-                )}
-              </motion.button>
+                className="flex flex-col gap-3">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Masukkan email kamu (contoh: admin@cspro.com)"
+                  autoComplete="email"
+                  className="w-full rounded-2xl border px-4 py-3.5 text-[0.88rem] font-medium outline-none transition-all focus:border-[rgba(96,165,250,0.7)]"
+                  style={{ background: "rgba(10,14,22,0.6)", borderColor: "rgba(37,99,235,0.3)", color: "#FFFFFF" }}
+                />
+                <motion.button
+                  type="submit"
+                  disabled={busy}
+                  whileHover={{ scale: 1.02, boxShadow: "0 8px 30px rgba(37,99,235,0.3)" }}
+                  whileTap={{ scale: 0.98 }}
+                  className="relative flex w-full items-center justify-center gap-3 overflow-hidden rounded-2xl py-4 text-[0.92rem] font-bold transition-all disabled:opacity-60"
+                  style={{ background: "linear-gradient(135deg, #1D4ED8 0%, #2563EB 50%, #3B82F6 100%)", color: "#FFFFFF", boxShadow: "0 8px 30px rgba(37,99,235,0.45), inset 0 1px 0 rgba(255,255,255,0.15)" }}>
+                  <motion.div animate={{ x: ["-120%", "220%"] }} transition={{ duration: 2.2, repeat: Infinity, repeatDelay: 1.4, ease: "easeInOut" }}
+                    className="absolute inset-y-0 w-1/3 skew-x-12 opacity-25" style={{ background: "linear-gradient(90deg, transparent, #fff, transparent)" }} />
+                  {busy ? <Loader2 size={20} className="animate-spin" /> : (
+                    <>
+                      <ShieldCheck size={18} />
+                      <span className="relative">Masuk dengan Email</span>
+                    </>
+                  )}
+                </motion.button>
+              </motion.form>
 
               {/* Features hint */}
               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}
@@ -193,7 +203,7 @@ export default function Login() {
               <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }}
                 className="mt-5 flex items-center justify-center gap-1.5 text-center text-[0.67rem]"
                 style={{ color: "#93B4F5" }}>
-                <ShieldCheck size={12} style={{ color: "#2563EB" }} /> Hanya akun Google terdaftar yang dapat masuk
+                <ShieldCheck size={12} style={{ color: "#2563EB" }} /> Masuk dengan email tim CS yang terdaftar
               </motion.p>
             </motion.div>
           )}
