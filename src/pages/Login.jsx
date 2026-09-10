@@ -38,7 +38,7 @@ export default function Login() {
     })();
   }, [navigate]);
 
-  const google = () => { setBusy(true); base44.auth.loginWithProvider("google", "/login"); };
+  const google = () => { setBusy(true); base44.auth.loginWithProvider("google", `${import.meta.env.BASE_URL}login`); };
 
   if (checking) {
     return (
