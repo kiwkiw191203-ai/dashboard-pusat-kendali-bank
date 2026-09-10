@@ -49,7 +49,7 @@ function App() {
     <AuthProvider>
       <ThemeProvider>
         <QueryClientProvider client={queryClientInstance}>
-          <Router>
+          <Router basename={import.meta.env.BASE_URL}>
             <ScrollToTop />
             <Routes>
               <Route path="/login" element={<Login />} />
