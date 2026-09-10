@@ -1,0 +1,73 @@
+{
+  "name": "CustomFeature",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Feature display name"
+    },
+    "slug": {
+      "type": "string",
+      "description": "URL slug"
+    },
+    "icon": {
+      "type": "string",
+      "description": "Lucide icon name"
+    },
+    "icon_color": {
+      "type": "string",
+      "default": "var(--acc)"
+    },
+    "banner_url": {
+      "type": "string"
+    },
+    "background_url": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "shortcuts": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "visible_roles": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "order": {
+      "type": "number",
+      "default": 0
+    },
+    "hidden": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "name",
+    "slug"
+  ],
+  "rls": {
+    "read": true,
+    "create": {
+      "user_condition": {
+        "role": "super_master"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "super_master"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "super_master"
+      }
+    }
+  }
+}

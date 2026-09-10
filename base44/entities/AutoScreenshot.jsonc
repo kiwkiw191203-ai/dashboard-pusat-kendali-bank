@@ -1,0 +1,40 @@
+{
+  "name": "AutoScreenshot",
+  "type": "object",
+  "properties": {
+    "image_url": {
+      "type": "string",
+      "description": "URL gambar screenshot"
+    },
+    "drive_link": {
+      "type": "string",
+      "description": "Link file di Google Drive pribadi pengambil screenshot (jika terhubung)"
+    },
+    "captured_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Waktu screenshot diambil"
+    },
+    "creator_name": {
+      "type": "string",
+      "description": "Nama pengambil screenshot (otomatis)"
+    },
+    "creator_email": {
+      "type": "string",
+      "description": "Email pengambil screenshot (otomatis)"
+    }
+  },
+  "required": [
+    "image_url"
+  ],
+  "rls": {
+    "create": true,
+    "read": true,
+    "update": {
+      "created_by": "{{user.email}}"
+    },
+    "delete": {
+      "created_by": "{{user.email}}"
+    }
+  }
+}

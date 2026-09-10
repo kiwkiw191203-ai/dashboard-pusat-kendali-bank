@@ -1,0 +1,47 @@
+{
+  "name": "ChatMistakeArchive",
+  "type": "object",
+  "properties": {
+    "screenshot_url": {
+      "type": "string",
+      "description": "URL screenshot bukti kesalahan (upload)"
+    },
+    "screenshot_link": {
+      "type": "string",
+      "description": "Link screenshot alternatif (opsional)"
+    },
+    "title": {
+      "type": "string",
+      "description": "Judul kesalahan"
+    },
+    "description": {
+      "type": "string",
+      "description": "Keterangan kesalahan"
+    },
+    "solution": {
+      "type": "string",
+      "description": "Solusi / tindak lanjut"
+    },
+    "creator_name": {
+      "type": "string",
+      "description": "Nama user pencatat (otomatis)"
+    },
+    "creator_email": {
+      "type": "string",
+      "description": "Email user pencatat (otomatis)"
+    }
+  },
+  "required": [
+    "title"
+  ],
+  "rls": {
+    "create": true,
+    "read": true,
+    "update": {
+      "created_by": "{{user.email}}"
+    },
+    "delete": {
+      "created_by": "{{user.email}}"
+    }
+  }
+}

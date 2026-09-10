@@ -1,0 +1,40 @@
+{
+  "name": "FeaturePermission",
+  "type": "object",
+  "properties": {
+    "email": {
+      "type": "string",
+      "description": "User email"
+    },
+    "feature": {
+      "type": "string",
+      "description": "Feature key"
+    },
+    "enabled": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "email",
+    "feature"
+  ],
+  "rls": {
+    "read": true,
+    "create": {
+      "user_condition": {
+        "role": "super_master"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "super_master"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "super_master"
+      }
+    }
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "name": "OnlineSession",
+  "type": "object",
+  "properties": {
+    "email": {
+      "type": "string",
+      "description": "Email of the logged-in user"
+    },
+    "name": {
+      "type": "string",
+      "description": "Display name"
+    },
+    "avatar_url": {
+      "type": "string",
+      "description": "Profile picture URL"
+    },
+    "cover_url": {
+      "type": "string",
+      "description": "Cover photo URL shown to other users"
+    },
+    "role": {
+      "type": "string",
+      "enum": [
+        "super_master",
+        "kapten",
+        "kasir",
+        "cs",
+        "master",
+        "member"
+      ],
+      "default": "cs",
+      "description": "User role"
+    },
+    "ip": {
+      "type": "string",
+      "description": "IP address"
+    },
+    "city": {
+      "type": "string"
+    },
+    "region": {
+      "type": "string"
+    },
+    "country": {
+      "type": "string"
+    },
+    "user_agent": {
+      "type": "string",
+      "description": "Browser user agent"
+    },
+    "login_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the session started"
+    },
+    "last_seen": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last heartbeat timestamp"
+    }
+  },
+  "required": [
+    "email"
+  ],
+  "rls": {
+    "read": true,
+    "create": true,
+    "update": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "super_master"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "super_master"
+          }
+        }
+      ]
+    }
+  }
+}

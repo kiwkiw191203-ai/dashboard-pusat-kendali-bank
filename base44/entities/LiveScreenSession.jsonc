@@ -1,0 +1,36 @@
+{
+  "name": "LiveScreenSession",
+  "type": "object",
+  "properties": {
+    "creator_email": {
+      "type": "string",
+      "description": "Email pemilik sesi live view"
+    },
+    "creator_name": {
+      "type": "string",
+      "description": "Nama pemilik sesi live view"
+    },
+    "frame_url": {
+      "type": "string",
+      "description": "URL frame layar terbaru"
+    },
+    "is_live": {
+      "type": "boolean",
+      "default": false,
+      "description": "Status apakah sesi sedang aktif live"
+    }
+  },
+  "required": [
+    "creator_email"
+  ],
+  "rls": {
+    "create": true,
+    "read": true,
+    "update": {
+      "created_by": "{{user.email}}"
+    },
+    "delete": {
+      "created_by": "{{user.email}}"
+    }
+  }
+}

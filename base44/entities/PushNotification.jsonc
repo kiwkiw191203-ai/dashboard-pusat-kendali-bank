@@ -1,0 +1,112 @@
+{
+  "name": "PushNotification",
+  "type": "object",
+  "properties": {
+    "target_email": {
+      "type": "string",
+      "description": "Recipient email; '*' means broadcast to everyone"
+    },
+    "target_name": {
+      "type": "string",
+      "description": "Recipient display name (empty for broadcast)"
+    },
+    "from_email": {
+      "type": "string",
+      "description": "Sender email"
+    },
+    "from_name": {
+      "type": "string",
+      "description": "Sender display name"
+    },
+    "from_role": {
+      "type": "string",
+      "description": "Sender role key"
+    },
+    "title": {
+      "type": "string",
+      "description": "Notification title"
+    },
+    "message": {
+      "type": "string",
+      "description": "Notification body"
+    },
+    "image_url": {
+      "type": "string",
+      "description": "Optional image or GIF shown in the notification"
+    },
+    "audio_url": {
+      "type": "string",
+      "description": "Optional generated voice (text-to-speech) audio of the message"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "info",
+        "success",
+        "warning",
+        "error",
+        "broadcast"
+      ],
+      "default": "info"
+    },
+    "read": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "target_email",
+    "message"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "data.target_email": "{{user.email}}"
+        },
+        {
+          "data.target_email": "*"
+        },
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "super_master"
+          }
+        }
+      ]
+    },
+    "create": true,
+    "update": {
+      "$or": [
+        {
+          "data.target_email": "{{user.email}}"
+        },
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "super_master"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "data.target_email": "{{user.email}}"
+        },
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "super_master"
+          }
+        }
+      ]
+    }
+  }
+}

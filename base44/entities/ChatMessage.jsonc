@@ -1,0 +1,33 @@
+{
+  "name": "ChatMessage",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Display name of sender"
+    },
+    "email": {
+      "type": "string",
+      "description": "Email of sender"
+    },
+    "avatar_url": {
+      "type": "string",
+      "description": "Sender avatar URL"
+    },
+    "message": {
+      "type": "string",
+      "description": "Chat message content"
+    },
+    "image_url": {
+      "type": "string",
+      "description": "Attached image URL"
+    },
+    "reply_to": {
+      "type": "string",
+      "description": "Preview of the message being replied to"
+    }
+  },
+  "required": [
+    "message"
+  ]
+}

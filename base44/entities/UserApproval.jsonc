@@ -1,0 +1,79 @@
+{
+  "name": "UserApproval",
+  "type": "object",
+  "properties": {
+    "email": {
+      "type": "string",
+      "description": "Email pengguna"
+    },
+    "name": {
+      "type": "string",
+      "description": "Nama pengguna"
+    },
+    "role": {
+      "type": "string",
+      "description": "Role pengguna saat approval dibuat/diupdate"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "approved",
+        "rejected"
+      ],
+      "default": "pending",
+      "description": "Status persetujuan akses"
+    },
+    "last_login_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Waktu login terakhir"
+    },
+    "approved_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Waktu approval/reject dilakukan"
+    },
+    "approved_by_email": {
+      "type": "string",
+      "description": "Email Super Admin yang melakukan approval"
+    },
+    "approved_by_name": {
+      "type": "string",
+      "description": "Nama Super Admin yang melakukan approval"
+    }
+  },
+  "required": [
+    "email",
+    "status"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "super_master"
+          }
+        }
+      ]
+    },
+    "create": {
+      "user_condition": {
+        "role": "super_master"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "super_master"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "super_master"
+      }
+    }
+  }
+}

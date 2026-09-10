@@ -1,0 +1,85 @@
+{
+  "name": "PhoneDevice",
+  "type": "object",
+  "properties": {
+    "label": {
+      "type": "string",
+      "description": "Nama / identitas HP (contoh: WD BCA / RATNASARI)"
+    },
+    "bank": {
+      "type": "string",
+      "description": "Bank atau kelompok bank (BCA, BRI, MANDIRI, dll)"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "wd",
+        "depo",
+        "off",
+        "kas",
+        "token",
+        "returned"
+      ],
+      "default": "wd",
+      "description": "Kategori HP di office"
+    },
+    "crosscheck": {
+      "type": "boolean",
+      "default": false,
+      "description": "Legacy \u2014 status centang lama"
+    },
+    "check_date": {
+      "type": "string",
+      "description": "Tanggal (YYYY-MM-DD) centang terakhir; beda tanggal = otomatis reset"
+    },
+    "check_shifts": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Shift yang sudah mencentang HP ini pada check_date (pagi / malam)"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Catatan tambahan"
+    },
+    "order": {
+      "type": "number",
+      "default": 0
+    },
+    "creator_name": {
+      "type": "string",
+      "description": "Nama penambah data (otomatis)"
+    },
+    "creator_email": {
+      "type": "string",
+      "description": "Email penambah data (otomatis)"
+    }
+  },
+  "required": [
+    "label",
+    "category"
+  ],
+  "rls": {
+    "read": true,
+    "create": true,
+    "update": true,
+    "delete": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "super_master"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "kapten"
+          }
+        }
+      ]
+    }
+  }
+}

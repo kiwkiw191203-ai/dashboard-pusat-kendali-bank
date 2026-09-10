@@ -1,0 +1,77 @@
+{
+  "name": "Note",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Note title"
+    },
+    "content": {
+      "type": "string",
+      "description": "Note body in markdown"
+    },
+    "pinned": {
+      "type": "boolean",
+      "default": false
+    },
+    "favorite": {
+      "type": "boolean",
+      "default": false
+    },
+    "visibility": {
+      "type": "string",
+      "enum": [
+        "private",
+        "public"
+      ],
+      "default": "private"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "folder": {
+      "type": "string"
+    },
+    "color": {
+      "type": "string"
+    },
+    "image_urls": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Attached image URLs"
+    },
+    "file_urls": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Attached file URLs"
+    },
+    "creator_name": {
+      "type": "string",
+      "description": "Nama pembuat catatan (otomatis)"
+    },
+    "creator_email": {
+      "type": "string",
+      "description": "Email pembuat catatan (otomatis)"
+    }
+  },
+  "required": [
+    "title"
+  ],
+  "rls": {
+    "create": true,
+    "read": true,
+    "update": {
+      "created_by": "{{user.email}}"
+    },
+    "delete": {
+      "created_by": "{{user.email}}"
+    }
+  }
+}

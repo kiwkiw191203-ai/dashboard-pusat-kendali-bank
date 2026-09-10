@@ -1,0 +1,45 @@
+{
+  "name": "LiveEvent",
+  "type": "object",
+  "properties": {
+    "actor_name": {
+      "type": "string",
+      "description": "Display name of who performed the action"
+    },
+    "actor_email": {
+      "type": "string",
+      "description": "Email of actor"
+    },
+    "actor_role": {
+      "type": "string",
+      "description": "Role key of actor"
+    },
+    "event_type": {
+      "type": "string",
+      "enum": [
+        "login",
+        "logout",
+        "role_change",
+        "feature_on",
+        "feature_off",
+        "profile_update",
+        "custom"
+      ],
+      "description": "Type of live event"
+    },
+    "message": {
+      "type": "string",
+      "description": "Full display message for the ticker"
+    },
+    "accent_color": {
+      "type": "string",
+      "description": "Color for this event",
+      "default": "var(--acc)"
+    }
+  },
+  "required": [
+    "actor_name",
+    "event_type",
+    "message"
+  ]
+}

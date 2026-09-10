@@ -1,0 +1,40 @@
+{
+  "name": "ShioConfig",
+  "type": "object",
+  "properties": {
+    "shio_name": {
+      "type": "string",
+      "description": "Nama shio"
+    },
+    "nums": {
+      "type": "string",
+      "description": "Daftar angka untuk shio ini, dipisah koma"
+    },
+    "order": {
+      "type": "number",
+      "default": 0
+    }
+  },
+  "required": [
+    "shio_name",
+    "nums"
+  ],
+  "rls": {
+    "read": true,
+    "create": {
+      "user_condition": {
+        "role": "super_master"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "super_master"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "super_master"
+      }
+    }
+  }
+}

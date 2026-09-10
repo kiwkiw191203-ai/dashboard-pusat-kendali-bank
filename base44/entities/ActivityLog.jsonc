@@ -1,0 +1,57 @@
+{
+  "name": "ActivityLog",
+  "type": "object",
+  "properties": {
+    "email": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "action": {
+      "type": "string",
+      "enum": [
+        "login",
+        "logout",
+        "update_profile",
+        "create",
+        "edit",
+        "delete",
+        "permission",
+        "role_change",
+        "ai_request",
+        "system_error",
+        "feature_toggle",
+        "notes_activity",
+        "togel_config"
+      ]
+    },
+    "detail": {
+      "type": "string"
+    },
+    "ip": {
+      "type": "string"
+    },
+    "user_agent": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "email",
+    "action"
+  ],
+  "rls": {
+    "read": true,
+    "create": true,
+    "update": {
+      "user_condition": {
+        "role": "super_master"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "super_master"
+      }
+    }
+  }
+}

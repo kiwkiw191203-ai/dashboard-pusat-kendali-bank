@@ -1,0 +1,70 @@
+{
+  "name": "TogelResult",
+  "type": "object",
+  "properties": {
+    "pasaran_name": {
+      "type": "string",
+      "description": "Nama pasaran togel"
+    },
+    "column": {
+      "type": "string",
+      "enum": [
+        "kiri",
+        "tengah",
+        "kanan"
+      ],
+      "description": "Posisi kolom tampilan"
+    },
+    "order": {
+      "type": "number",
+      "default": 0
+    },
+    "result_type": {
+      "type": "string",
+      "enum": [
+        "single",
+        "triple"
+      ],
+      "default": "single"
+    },
+    "result_date": {
+      "type": "string",
+      "description": "Tanggal result ini berlaku (YYYY-MM-DD)"
+    },
+    "p1": {
+      "type": "string",
+      "default": ""
+    },
+    "p2": {
+      "type": "string",
+      "default": ""
+    },
+    "p3": {
+      "type": "string",
+      "default": ""
+    },
+    "creator_name": {
+      "type": "string",
+      "description": "Nama yang mengisi result ini (otomatis)"
+    },
+    "creator_email": {
+      "type": "string",
+      "description": "Email yang mengisi result ini (otomatis)"
+    }
+  },
+  "required": [
+    "pasaran_name",
+    "column",
+    "result_type"
+  ],
+  "rls": {
+    "create": true,
+    "read": true,
+    "update": {
+      "created_by": "{{user.email}}"
+    },
+    "delete": {
+      "created_by": "{{user.email}}"
+    }
+  }
+}

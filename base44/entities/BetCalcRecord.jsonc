@@ -1,0 +1,67 @@
+{
+  "name": "BetCalcRecord",
+  "type": "object",
+  "properties": {
+    "bet_type": {
+      "type": "string",
+      "enum": [
+        "overunder",
+        "handicap"
+      ],
+      "description": "Jenis taruhan"
+    },
+    "side": {
+      "type": "string",
+      "enum": [
+        "over",
+        "under",
+        "favored"
+      ],
+      "description": "Sisi taruhan"
+    },
+    "handicap": {
+      "type": "number",
+      "description": "Nilai handicap"
+    },
+    "total_goal": {
+      "type": "number",
+      "description": "Total gol / selisih"
+    },
+    "result": {
+      "type": "string",
+      "enum": [
+        "WIN",
+        "LOSE",
+        "DRAW",
+        "WIN_HALF",
+        "LOSE_HALF"
+      ],
+      "description": "Hasil perhitungan"
+    },
+    "creator_name": {
+      "type": "string",
+      "description": "Nama pencatat (otomatis)"
+    },
+    "creator_email": {
+      "type": "string",
+      "description": "Email pencatat (otomatis)"
+    }
+  },
+  "required": [
+    "bet_type",
+    "side",
+    "handicap",
+    "total_goal",
+    "result"
+  ],
+  "rls": {
+    "create": true,
+    "read": true,
+    "update": {
+      "created_by": "{{user.email}}"
+    },
+    "delete": {
+      "created_by": "{{user.email}}"
+    }
+  }
+}

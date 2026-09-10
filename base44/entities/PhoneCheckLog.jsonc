@@ -1,0 +1,74 @@
+{
+  "name": "PhoneCheckLog",
+  "type": "object",
+  "properties": {
+    "checked_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Waktu crosscheck dilakukan"
+    },
+    "check_date": {
+      "type": "string",
+      "description": "Tanggal sesi crosscheck (YYYY-MM-DD)"
+    },
+    "shift": {
+      "type": "string",
+      "description": "Shift sesi crosscheck (pagi / malam)"
+    },
+    "staff_name": {
+      "type": "string",
+      "description": "Nama staff yang bertugas crosscheck"
+    },
+    "staff_email": {
+      "type": "string",
+      "description": "Email staff yang bertugas"
+    },
+    "staff_role": {
+      "type": "string",
+      "description": "Role staff saat crosscheck"
+    },
+    "total": {
+      "type": "number",
+      "description": "Total HP yang harus dicek"
+    },
+    "ok_count": {
+      "type": "number",
+      "description": "Jumlah HP yang tercentang / ada"
+    },
+    "missing_count": {
+      "type": "number",
+      "description": "Jumlah HP yang belum tercentang / hilang"
+    },
+    "checked_labels": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Daftar HP (nama + bank) yang sudah tercentang pada sesi ini"
+    },
+    "missing_labels": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Daftar HP (nama + bank) yang belum tercentang"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Catatan sesi crosscheck"
+    }
+  },
+  "required": [
+    "staff_name"
+  ],
+  "rls": {
+    "create": true,
+    "read": true,
+    "update": {
+      "created_by": "{{user.email}}"
+    },
+    "delete": {
+      "created_by": "{{user.email}}"
+    }
+  }
+}

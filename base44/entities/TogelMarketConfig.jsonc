@@ -1,0 +1,41 @@
+{
+  "name": "TogelMarketConfig",
+  "type": "object",
+  "properties": {
+    "market_key": {
+      "type": "string",
+      "description": "Key pasaran (umum, toto_mali, king_kong, hoki_draw)"
+    },
+    "market_name": {
+      "type": "string",
+      "description": "Nama pasaran"
+    },
+    "config_json": {
+      "type": "string",
+      "description": "JSON array bets (hadiah & diskon) hasil edit Super Master"
+    },
+    "updated_by_email": {
+      "type": "string"
+    },
+    "updated_by_name": {
+      "type": "string"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "market_key"
+  ],
+  "rls": {
+    "create": true,
+    "read": true,
+    "update": {
+      "created_by": "{{user.email}}"
+    },
+    "delete": {
+      "created_by": "{{user.email}}"
+    }
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "name": "AccountValidation",
+  "type": "object",
+  "properties": {
+    "bank_name": {
+      "type": "string",
+      "description": "Nama Bank / Ewallet"
+    },
+    "account_number": {
+      "type": "string",
+      "description": "Nomor rekening / ewallet"
+    },
+    "account_holder": {
+      "type": "string",
+      "description": "Nama pemilik rekening (opsional)"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "valid",
+        "invalid"
+      ],
+      "default": "pending",
+      "description": "Status validasi"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Catatan tambahan"
+    }
+  },
+  "required": [
+    "bank_name",
+    "account_number"
+  ],
+  "rls": {
+    "read": true,
+    "create": true,
+    "update": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "super_master"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "kapten"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "super_master"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "kapten"
+          }
+        }
+      ]
+    }
+  }
+}
